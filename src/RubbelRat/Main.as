@@ -16,6 +16,15 @@ package RubbelRat
 	 */
 	public class Main extends Sprite 
 	{
+		private var canvas:RubbelCanvas;
+		private var wordWindow:WordWindow;
+		
+		private var currentStage:int = -1;
+		private var words:Array = [	["stage1", "onkomonko", "stage1", "stage1"],
+									["onkomonko", "stage2", "stage2", "stage2"],
+									["stage3", "stage3", "onkomonko", "stage3"],
+									["stage4", "stage4", "stage4", "onkomonko"],
+									["stage5", "onkomonko", "stage5", "stage5"]	];
 		
 		public function Main():void 
 		{
@@ -35,8 +44,7 @@ package RubbelRat
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
-			var canvas:RubbelCanvas = new RubbelCanvas(new BitmapData(480, 600, false, 0xff0000), 0xff000000, this);
-			this.addChild(canvas);	
+			startNextStage();
 		}
 		
 		private function deactivate(e:Event):void 
@@ -45,11 +53,71 @@ package RubbelRat
 			//NativeApplication.nativeApplication.exit();
 		}
 		
+		private function startNextStage() : void {
+			
+			if ( currentStage == words.length -1 ) {
+				trace("done!");
+				return;
+			}
+			
+			if ( canvas ) {
+				this.removeChild(canvas);
+				canvas.deinit();
+				canvas = null;
+			}
+			
+			if ( wordWindow ) {
+				this.removeChild(wordWindow);
+				wordWindow.deinit();
+				wordWindow = null;
+			}
+			
+			currentStage++;
+			
+			canvas = new RubbelCanvas(new BitmapData(480, 600, false, 0xffff00), 0xff000000, this);
+			this.addChild(canvas);	
+			
+			wordWindow = new WordWindow(words[currentStage], onWordClicked);
+			this.addChild(wordWindow);
+			wordWindow.height = 200;
+			wordWindow.width = 480;
+			wordWindow.y = 600;			
+		}	
+		
 		public function onPixelsUncovered(percentCovered_:Number) : void
 		{
 			trace(percentCovered_);
 		}
 		
-	}
-	
+		public function onWordClicked(text_:String) : void {
+			
+			var correctWord:String = "";
+			
+			switch( currentStage ) {
+				case 0:
+					correctWord = "onkomonko";
+					break;
+					
+				case 1:
+					correctWord = "onkomonko";
+					break;
+					
+				case 2:
+					correctWord = "onkomonko";
+					break;
+					
+				case 3:
+					correctWord = "onkomonko";
+					break;
+					
+				case 4:
+					correctWord = "onkomonko";
+					break;					
+			}
+			
+			if ( text_ == correctWord ) {
+				startNextStage();
+			}
+		}	
+	}	
 }

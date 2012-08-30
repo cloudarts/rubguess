@@ -56,6 +56,22 @@ package RubbelRat
 			eraser = new PEN1();			
 		}
 		
+		public function deinit():void 
+		{			
+			this.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			this.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			this.removeEventListener(MouseEvent.MOUSE_OUT, onMouseUp);
+			this.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			
+			this.removeChild(image);
+			this.removeChild(fg);
+			
+			imageBD = null;
+			delegate = null;
+			image = null
+			eraser = null;
+		}
+		
 		private function onMouseDown(e:MouseEvent):void 
 		{
 			mouseDown = true;
@@ -64,6 +80,10 @@ package RubbelRat
 		
 		private function onMouseUp(e:MouseEvent):void 
 		{
+			if ( !mouseDown ) {
+				return;
+			}
+			
 			mouseDown = false
 			evaluateImageStatus();
 		}

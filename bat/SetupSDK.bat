@@ -4,7 +4,7 @@
 set FLEX_SDK=C:\Program Files\FlashDevelop\Tools\flexsdk
 
 :: Path to Android SDK
-set ANDROID_SDK=C:\Program Files\FlashDevelop\Tools\android
+set ANDROID_SDK=d:\android\sdk
 
 
 :validation
